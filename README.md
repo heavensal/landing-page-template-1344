@@ -1,46 +1,75 @@
-# Astro Starter Kit: Basics
+# Modèle Astro — landing + pages légales
+
+Projet prêt à l’emploi : Astro 6, Tailwind 4, sitemap, layout SEO (Open Graph, canonical), footer, hero minimal, mentions légales / politique de confidentialité / CGU, déploiement GitHub Pages via Actions.
+
+**Prérequis :** Node.js ≥ 22.12 (voir `package.json` → `engines`). Un fichier `.nvmrc` fixe la branche majeure pour `nvm use`.
+
+---
+
+## Utiliser ce dépôt comme modèle
+
+### Sur GitHub
+
+1. Dans le dépôt **source** du modèle : **Settings** → **General** → cocher **Template repository**, puis enregistrer.
+2. Sur la page du dépôt : **Use this template** → **Create a new repository**.
+3. Cloner le nouveau dépôt, puis à la racine :
+
+   ```sh
+   pnpm install
+   pnpm dev
+   ```
+
+4. Adapter au minimum :
+   - `astro.config.mjs` — `site` (`VOTRE_USER` / domaine) et `base` : le segment après `github.io` doit être le **nom exact du nouveau dépôt** (remplacer `landing-page-template` dans `BASE` si besoin).
+   - `src/site.config.ts` — nom, contact, textes, SEO.
+   - `package.json` — champ `name` (et éventuellement `version`).
+
+### Avec la CLI Astro
+
+Crée un dossier à partir de ce dépôt GitHub (remplace `PROPRIETAIRE/NOM_DU_DEPOT` et éventuellement la branche) :
 
 ```sh
-pnpm create astro@latest -- --template basics
+pnpm create astro@latest mon-nouveau-site -- --template PROPRIETAIRE/NOM_DU_DEPOT
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Puis `cd mon-nouveau-site`, `pnpm install`, `pnpm dev`, et les mêmes adaptations que ci-dessus.
 
-## 🚀 Project Structure
+---
 
-Inside of your Astro project, you'll see the following folders and files:
+## Structure du projet
 
 ```text
 /
 ├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
+├── src/
+│   ├── components/     HeroMinimal, SiteFooter
+│   ├── layouts/        Layout.astro (SEO global)
+│   ├── lib/            utilitaires (chemins)
+│   ├── pages/          index, mentions légales, confidentialité, CGU
+│   ├── styles/         global.css
+│   └── site.config.ts  réglages site (un seul fichier à personnaliser en priorité)
+├── astro.config.mjs
 └── package.json
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+---
 
-## 🧞 Commands
+## Commandes
 
-All commands are run from the root of the project, from a terminal:
+| Commande        | Action                          |
+| :-------------- | :------------------------------ |
+| `pnpm install`  | Installe les dépendances        |
+| `pnpm dev`      | Serveur de dev (port par défaut Astro) |
+| `pnpm build`    | Build production → `dist/`      |
+| `pnpm preview`  | Prévisualise le build local     |
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+---
 
-## 👀 Want to learn more?
+## Déploiement (GitHub Pages)
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Le workflow `.github/workflows/deploy-github-pages.yml` build et publie sur push vers `main` ou `master`.
+
+1. **Repository** → **Settings** → **Pages** : source **GitHub Actions**.
+2. Aligner `site` et `base` dans `astro.config.mjs` avec l’URL réelle du site (dépôt projet sous `https://USER.github.io/nom-repo/` → `base` doit être `/nom-repo/`).
+
+Documentation Astro : [https://docs.astro.build](https://docs.astro.build).

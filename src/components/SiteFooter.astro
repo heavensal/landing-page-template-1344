@@ -1,0 +1,32 @@
+---
+import { pageHref } from '../lib/paths';
+import { siteConfig } from '../site.config';
+
+const { email, phone } = siteConfig.contact;
+const telDigits = phone.replace(/\D/g, '');
+---
+
+<footer class="bg-gray-900 text-gray-300 py-10 px-4" role="contentinfo">
+	<div class="container mx-auto max-w-4xl">
+		<div class="text-center text-sm mb-6">
+			<p class="font-semibold text-white mb-2">{siteConfig.name}</p>
+			<p class="mb-1">{siteConfig.tagline}</p>
+			<p class="mb-1">
+				<a href={`mailto:${email}`} class="text-emerald-400 hover:text-emerald-300">{email}</a>
+			</p>
+			<p class="mb-1">
+				{telDigits.length >= 8 ? (
+					<a href={`tel:${telDigits}`} class="text-emerald-400 hover:text-emerald-300">{phone}</a>
+				) : (
+					<span class="text-gray-400">{phone}</span>
+				)}
+			</p>
+		</div>
+		<nav class="flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm mb-4" aria-label="Mentions légales et politiques">
+			<a href={pageHref('mentions-legales')} class="text-gray-400 hover:text-white">Mentions légales</a>
+			<a href={pageHref('politique-confidentialite')} class="text-gray-400 hover:text-white">Politique de confidentialité</a>
+			<a href={pageHref('conditions-generales')} class="text-gray-400 hover:text-white">Conditions générales</a>
+		</nav>
+		<p class="text-center text-gray-500 text-sm">{siteConfig.legalId}</p>
+	</div>
+</footer>
