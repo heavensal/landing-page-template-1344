@@ -1,7 +1,6 @@
-# Codex Astro Base Template Instructions
+# Copilot Astro Base Template Instructions
 
-These instructions apply to Codex and other agentic coding tools that read `AGENTS.md`.
-They are reusable base instructions for Astro projects.
+When suggesting or generating code for this repository, follow these instructions.
 
 ## First Steps
 
@@ -11,14 +10,13 @@ They are reusable base instructions for Astro projects.
 - i18n system and translation files
 - SEO configuration (files marked with `// SEO:` comments)
 - ContentForge API integration
-- Styling guidelines and Tailwind conventions
+- Tailwind styling conventions
 
 ## Architecture and Components
 
-- Follow the existing project structure, code style, and component patterns.
-- Keep changes focused and minimal.
-- Reuse existing components and styling patterns before introducing new ones.
-- Avoid unnecessary abstractions, helpers, or dependencies.
+- Follow the existing codebase patterns and keep changes small and targeted.
+- Reuse existing components, utilities, and styles whenever possible.
+- Prefer straightforward, maintainable solutions over abstraction.
 - Each component should represent one section focused on a single subject, theme, or customer conversion step.
 - Create a separate component whenever a new subject, theme, or conversion step is introduced.
 - Do not exceed 150 lines of code per file.
@@ -26,7 +24,7 @@ They are reusable base instructions for Astro projects.
 
 ## Tailwind CSS — STRICT RULES
 
-This project uses **Tailwind CSS 4** with strict conventions:
+This project uses **Tailwind CSS 4** with strict conventions.
 
 ### ✅ ALWAYS: Use Native Tailwind Classes Only
 
@@ -54,17 +52,9 @@ This project uses **Tailwind CSS 4** with strict conventions:
 
 1. **First**: Use native Tailwind animations (`animate-pulse`, `animate-spin`, `animate-bounce`)
 2. **Second**: Use Tailwind transitions (`transition-colors`, `transition-transform`, `duration-200`)
-3. **Last resort only**: Create custom `@keyframes` in `global.css` (only if explicitly requested or Tailwind cannot cover the animation)
+3. **Last resort only**: Create custom `@keyframes` in `global.css` (only if explicitly requested)
 
-```css
-/* Only if native Tailwind cannot cover the animation */
-@keyframes custom-animation {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-```
-
-### If User Requests Non-Standard Styling
+### Exception
 
 Only deviate from these rules if the user **explicitly requests**:
 - Arbitrary values for a specific use case
@@ -73,11 +63,10 @@ Only deviate from these rules if the user **explicitly requests**:
 
 ## SEO and Accessibility
 
-- Preserve responsive behavior and accessibility.
+- Preserve accessibility and responsive behavior.
 - Every HTML generation must follow the best possible SEO and accessibility practices.
 - Use semantic HTML elements (`<section>`, `<header>`, `<nav>`, `<main>`, `<footer>`).
 - Include proper ARIA labels and landmark roles.
-- Ensure all interactive elements have focus states.
 
 ## i18n Guidelines
 
@@ -87,6 +76,5 @@ Only deviate from these rules if the user **explicitly requests**:
 
 ## Change Safety
 
-- Do not perform large refactors unless explicitly requested.
-- Do not overwrite user changes unless explicitly asked to do so.
-- Keep existing file structure and naming conventions.
+- Avoid unnecessary dependencies or refactors.
+- Do not replace existing user work unless specifically instructed.

@@ -1,30 +1,57 @@
 /**
- * Point unique à adapter pour le site (SEO, contact, réseaux).
- * Les pages légales reprennent ces valeurs quand c’est pertinent.
+ * Single source of truth for site metadata (SEO, contact, social).
+ * Legal pages reuse these values where relevant.
+ *
+ * SEO: All values in this file affect SEO and should be customized.
  */
 export const siteConfig = {
-	/** Nom affiché (balises, footer, Open Graph) */
-	name: '[Nom du site — à modifier]',
-	/** Phrase courte sous le titre principal */
-	tagline: '[Une phrase qui résume votre activité — à modifier]',
-	/** Meta description par défaut (~150–160 caractères pour le SEO) */
+	// SEO: Site identity
+	/** Displayed name (meta tags, footer, Open Graph) */
+	name: '[Site name — to modify]',
+	/** Short phrase below main title */
+	tagline: '[A sentence summarizing your activity — to modify]',
+
+	// SEO: Meta description (150-160 chars recommended)
+	/** Default meta description for search engines */
 	defaultDescription:
-		'[Description pour les moteurs de recherche : qui vous êtes, où, quoi. À modifier.]',
+		'[Search engine description: who you are, where, what. To modify.]',
+
+	// SEO: Language and locale
 	lang: 'fr',
 	locale: 'fr_FR',
-	/** Couleur navigateur (mobile) */
+
+	/** Browser theme color (mobile) */
 	themeColor: '#047857',
+
+	// SEO: Contact info (used in footer, contact section, JSON-LD)
 	contact: {
-		email: '[contact@exemple.fr — à modifier]',
-		phone: '[01 23 45 67 89 — à modifier]',
+		email: '[contact@example.com — to modify]',
+		phone: '[+33 1 23 45 67 89 — to modify]',
 	},
-	/** SIRET / identifiant légal affiché dans le footer et les mentions */
-	legalId: '[SIRET ou identifiant — à modifier]',
-	/** @handle sans @ ; laisser vide si pas de compte */
+
+	/** SIRET / legal ID displayed in footer and legal pages */
+	legalId: '[SIRET or legal ID — to modify]',
+
+	// SEO: Social media profiles
+	/** @handle without @; leave empty if no account */
 	twitterHandle: '',
 	/**
-	 * URL absolue d’une image Open Graph (1200×630 recommandé), ou '' pour ne pas l’émettre.
-	 * Après déploiement, peut être `https://votre-domaine/og-image.jpg` si vous ajoutez le fichier dans public/.
+	 * Social profile URLs for JSON-LD sameAs (LinkedIn, Instagram, etc.)
+	 * Example: ['https://www.linkedin.com/company/...', 'https://instagram.com/...']
 	 */
+	sameAs: [] as string[],
+
+	// SEO: Open Graph image for social sharing
+	/**
+	 * Open Graph image dimensions (1200×630 recommended).
+	 * Set to 0 to omit width/height meta tags.
+	 */
+	ogImageWidth: 1200,
+	ogImageHeight: 630,
+	/**
+	 * Absolute URL for Open Graph image, or '' to omit.
+	 * After deployment, can be `https://your-domain.com/og-image.jpg` if you add the file to public/.
+	 */
+	// SEO: Update ogImageUrl after deploying to final domain
 	ogImageUrl: '',
 } as const;

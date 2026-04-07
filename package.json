@@ -1,6 +1,6 @@
 {
   "name": "landing-page-template",
-  "description": "Modèle Astro : landing, pages légales, Tailwind 4, SEO, GitHub Pages.",
+  "description": "Astro template: landing, legal pages, Tailwind 4, SEO, i18n, GitHub Pages.",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -16,6 +16,7 @@
     "@astrojs/sitemap": "^3.6.0",
     "@tailwindcss/vite": "^4.2.1",
     "astro": "^6.0.8",
+    "i18next": "^23.16.8",
     "tailwindcss": "^4.2.1"
   }
 }
