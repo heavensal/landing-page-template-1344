@@ -26,7 +26,7 @@ Production-ready template: Astro 6, Tailwind 4, i18n (French/English), SEO (site
 
 - **i18n**: French/English with toggle via `ENABLE_MULTILANG` environment variable
 - **SEO**: Open Graph, Twitter Cards, JSON-LD, canonical URLs, hreflang, sitemap
-- **Landing sections**: Hero, Services, Process, Reviews, FAQ, Contact, Footer
+- **Landing sections**: Hero, Services, Process, Reviews, FAQ, Contact (demo dialog form + mail template reference), Footer
 - **Legal pages**: Legal notice, Privacy policy, Terms of service
 - **Accessibility**: Skip-link, semantic HTML, ARIA labels, focus management
 - **LLM-ready**: Rules for Cursor, GitHub Copilot, and Codex
@@ -107,7 +107,12 @@ After creating your project, update these files:
 │   ├── lib/
 │   │   ├── paths.ts          # URL utilities for base path
 │   │   ├── seo.ts            # JSON-LD and hreflang helpers
-│   │   └── contentforge.ts   # API integration
+│   │   ├── contentforge.ts   # API integration
+│   │   └── email/
+│   │       └── contactMailHtml.ts  # HTML body for external mailers
+│   ├── templates/
+│   │   └── email/
+│   │       └── contact-message.html  # Reference email layout (placeholders)
 │   ├── pages/
 │   │   ├── index.astro       # French landing (default)
 │   │   ├── en/index.astro    # English landing
@@ -136,8 +141,9 @@ Copy `.env.example` to `.env` and configure:
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `ENABLE_MULTILANG` | `false` | Set to `true` to enable French/English switcher |
-| `CONTENTFORGE_API_TOKEN` | - | Optional API token for dynamic FAQ content |
-| `CONTENTFORGE_URL` | `https://contentforge.1344.fr/api/v1` | Optional API base URL |
+| `CONTENTFORGE_ENABLED` | `true` in `.env.example` | Set to `true` to fetch FAQs from the API; `false` uses i18n only |
+| `CONTENTFORGE_API_TOKEN` | - | API token (required for fetch when enabled) |
+| `CONTENTFORGE_URL` | `https://contentforge.1344.fr/api/v1` | API base URL |
 
 ### Site Configuration (`src/site.config.ts`)
 
@@ -212,6 +218,13 @@ const t = getFixedT(locale);  // Get translation function
   <!-- Content using t() for all text -->
 </section>
 ```
+
+### Contact section (`LandingContactSection`)
+
+- **Dialog form** is a **demo**: submit does not call a server; a notice explains that no email is sent.
+- **Reference HTML** for real mailers: `src/templates/email/contact-message.html` (placeholders `{{fullName}}`, `{{email}}`, `{{message}}`).
+- **Helper** (optional, for a separate backend): `buildContactEmailHtml()` in `src/lib/email/contactMailHtml.ts`.
+- **SMTP** settings in `.env.example` document variables for an **external** sending service (this static site does not send mail).
 
 ### Using Components
 
@@ -473,6 +486,7 @@ The FAQ section supports dynamic content from ContentForge API with graceful fal
 Set environment variables in `.env`:
 
 ```sh
+CONTENTFORGE_ENABLED=true
 CONTENTFORGE_URL=https://contentforge.1344.fr/api/v1
 CONTENTFORGE_API_TOKEN=your_api_token_here
 ```
@@ -481,8 +495,8 @@ CONTENTFORGE_API_TOKEN=your_api_token_here
 
 `LandingFaqSection.astro` fetches FAQs from the API at build time:
 
-1. If API token is set and API responds: uses API data
-2. If API fails or no token: falls back to translation file content
+1. If `CONTENTFORGE_ENABLED` is `true`, a token is set, and the API responds: uses API data
+2. If disabled, no token, or API error: falls back to translation file content
 
 ```typescript
 // src/lib/contentforge.ts
@@ -504,7 +518,7 @@ const apiUrl = contentforgeApiUrl('reviews');  // or your endpoint
 const apiToken = import.meta.env.CONTENTFORGE_API_TOKEN;
 
 const getData = async () => {
-  if (!apiToken) return getFallbackData();
+  if (import.meta.env.CONTENTFORGE_ENABLED !== 'true' || !apiToken) return getFallbackData();
   
   try {
     const response = await fetch(apiUrl, {

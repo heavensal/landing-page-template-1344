@@ -73,7 +73,16 @@
 	"LandingContact": {
 		"title": "Contact us",
 		"intro": "[Describe how to contact you and what to expect — to modify]",
-		"emailCta": "Email us"
+		"emailCta": "Email us",
+		"openFormCta": "Open form (demo)",
+		"dialogTitle": "Contact request",
+		"dialogDescription": "This form is a demo: no message is sent from this template site.",
+		"fieldName": "Name",
+		"fieldEmail": "Email",
+		"fieldMessage": "Message (optional)",
+		"submit": "Send",
+		"close": "Close",
+		"demoNotice": "Demo: no real submission. Connect a backend or external service to send email."
 	},
 	"SiteFooter": {
 		"tagline": "[Short phrase summarizing your activity — to modify]",

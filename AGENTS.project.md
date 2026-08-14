@@ -19,6 +19,7 @@ This is a landing page template for conversion-focused marketing sites with:
 - Single-language (French) or bilingual (French/English) modes
 - Multi-language controlled by `ENABLE_MULTILANG` environment variable
 - ContentForge API integration for dynamic FAQ content
+- Contact demo dialog (no send) + reference email HTML for external mailers
 - Complete SEO setup (Open Graph, JSON-LD, hreflang, sitemap)
 
 ## Key Files to Know
@@ -32,7 +33,10 @@ This is a landing page template for conversion-focused marketing sites with:
 | `src/layouts/Layout.astro` | SEO: Meta tags, hreflang, JSON-LD |
 | `src/lib/seo.ts` | JSON-LD structured data builders |
 | `src/lib/contentforge.ts` | API integration utility |
-| `.env` | Runtime configuration |
+| `src/lib/email/contactMailHtml.ts` | HTML body builder for external contact mailers |
+| `src/templates/email/contact-message.html` | Reference email template (placeholders) |
+| `LandingContactSection.astro` | Contact section: demo dialog form (no network send) |
+| `.env` | Runtime configuration (see `.env.example` for optional SMTP docs for backends) |
 
 ## Component Architecture
 
@@ -71,9 +75,9 @@ Files containing `// SEO:` comments indicate elements requiring updates:
 ## ContentForge API
 
 The FAQ section supports API-driven content with fallback:
-- Set `CONTENTFORGE_API_TOKEN` in `.env` to enable
-- API data fetched at build time
-- Falls back to translation file if API unavailable
+- Set `CONTENTFORGE_ENABLED=true` and `CONTENTFORGE_API_TOKEN` in `.env` to fetch at build time
+- Set `CONTENTFORGE_ENABLED=false` to always use translation file FAQ (no network call)
+- Falls back to translations if disabled, missing token, or API error
 
 ## Conversion Focus
 

@@ -11,6 +11,10 @@ const t = getFixedT(locale);
 
 const { email, phone } = siteConfig.contact;
 const telDigits = phone.replace(/\D/g, '');
+
+const dialogTitle = t('LandingContact.dialogTitle');
+const dialogDesc = t('LandingContact.dialogDescription');
+const demoNotice = t('LandingContact.demoNotice');
 ---
 
 <section
@@ -25,13 +29,21 @@ const telDigits = phone.replace(/\D/g, '');
 		>
 			{t('LandingContact.title')}
 		</h2>
-		<p class="mb-8 leading-relaxed text-gray-600">
+		<p class="mb-8 leading-relaxed text-gray-600" id="contact-intro">
 			{t('LandingContact.intro')}
 		</p>
-		<div class="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+		<div class="flex flex-col items-center gap-4 sm:flex-row sm:justify-center flex-wrap">
+			<button
+				type="button"
+				class="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-8 py-3 text-base font-medium text-white transition-colors hover:bg-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+				data-contact-open
+				aria-haspopup="dialog"
+			>
+				{t('LandingContact.openFormCta')}
+			</button>
 			<a
 				href={`mailto:${email}`}
-				class="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-8 py-3 text-base font-medium text-white transition-colors hover:bg-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+				class="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-8 py-3 text-base font-medium text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
 			>
 				{t('LandingContact.emailCta')}
 			</a>
@@ -47,4 +59,111 @@ const telDigits = phone.replace(/\D/g, '');
 			}
 		</div>
 	</div>
+
+	<dialog
+		id="contact-form-dialog"
+		class="w-full max-w-lg rounded-xl border border-gray-200 bg-white p-0 text-left shadow-lg backdrop:bg-gray-900 backdrop:opacity-40 open:flex open:flex-col"
+		aria-labelledby="contact-dialog-title"
+		aria-describedby="contact-dialog-desc"
+	>
+		<div class="border-b border-gray-100 px-6 py-4">
+			<h3 id="contact-dialog-title" class="text-xl font-bold text-gray-900">
+				{dialogTitle}
+			</h3>
+			<p id="contact-dialog-desc" class="mt-1 text-sm text-gray-600">
+				{dialogDesc}
+			</p>
+		</div>
+		<form id="contact-demo-form" class="flex flex-col gap-4 px-6 py-4">
+			<div>
+				<label for="demo-name" class="mb-1 block text-sm font-medium text-gray-900">
+					{t('LandingContact.fieldName')}
+				</label>
+				<input
+					id="demo-name"
+					name="name"
+					type="text"
+					autocomplete="name"
+					required
+					class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+				/>
+			</div>
+			<div>
+				<label for="demo-email" class="mb-1 block text-sm font-medium text-gray-900">
+					{t('LandingContact.fieldEmail')}
+				</label>
+				<input
+					id="demo-email"
+					name="email"
+					type="email"
+					autocomplete="email"
+					required
+					class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+				/>
+			</div>
+			<div>
+				<label for="demo-message" class="mb-1 block text-sm font-medium text-gray-900">
+					{t('LandingContact.fieldMessage')}
+				</label>
+				<textarea
+					id="demo-message"
+					name="message"
+					rows="4"
+					class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+				></textarea>
+			</div>
+			<p
+				id="contact-demo-notice"
+				class="hidden rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-900 border border-amber-200"
+				role="status"
+			>
+				{demoNotice}
+			</p>
+			<div class="flex flex-wrap justify-end gap-3 border-t border-gray-100 pt-4">
+				<button
+					type="button"
+					class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+					data-contact-close
+				>
+					{t('LandingContact.close')}
+				</button>
+				<button
+					type="submit"
+					class="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+				>
+					{t('LandingContact.submit')}
+				</button>
+			</div>
+		</form>
+	</dialog>
 </section>
+
+<script>
+	(() => {
+		const dialog = document.getElementById(
+			'contact-form-dialog',
+		) as HTMLDialogElement | null;
+		const form = document.getElementById('contact-demo-form');
+		const notice = document.getElementById('contact-demo-notice');
+
+		document.querySelectorAll('[data-contact-open]').forEach((btn) => {
+			btn.addEventListener('click', () => {
+				notice?.classList.add('hidden');
+				dialog?.showModal();
+			});
+		});
+
+		document.querySelectorAll('[data-contact-close]').forEach((btn) => {
+			btn.addEventListener('click', () => dialog?.close());
+		});
+
+		dialog?.addEventListener('close', () => {
+			notice?.classList.add('hidden');
+		});
+
+		form?.addEventListener('submit', (e) => {
+			e.preventDefault();
+			notice?.classList.remove('hidden');
+		});
+	})();
+</script>

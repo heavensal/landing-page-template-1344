@@ -73,7 +73,16 @@
 	"LandingContact": {
 		"title": "Contactez-nous",
 		"intro": "[Décrivez comment vous contacter et ce à quoi s'attendre — à modifier]",
-		"emailCta": "Nous écrire"
+		"emailCta": "Nous écrire",
+		"openFormCta": "Ouvrir le formulaire (démo)",
+		"dialogTitle": "Demande de contact",
+		"dialogDescription": "Ce formulaire est une démonstration : aucun message n'est envoyé depuis ce site template.",
+		"fieldName": "Nom",
+		"fieldEmail": "Email",
+		"fieldMessage": "Message (optionnel)",
+		"submit": "Envoyer",
+		"close": "Fermer",
+		"demoNotice": "Démo : aucun envoi réel. Branchez un backend ou un service externe pour envoyer des emails."
 	},
 	"SiteFooter": {
 		"tagline": "[Phrase courte résumant votre activité — à modifier]",
